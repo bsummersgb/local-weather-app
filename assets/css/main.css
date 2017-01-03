@@ -318,6 +318,37 @@ input[type="button"]:focus {
 }
 
 .clear-weather {
-  background-image: url("/assets/img/sky.jpg") !important;
+  background-image: url("/assets/img/clear.jpg") !important;
   background-repeat: no-repeat;
+  background-position: center;
+}
+
+.cloudy {
+  background-image: url("/assets/img/broken_clouds.jpg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.rainy {
+  background-image: url("/assets/img/rain.jpg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.misty {
+  background-image: url("/assets/img/mist.jpg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.snowy {
+  background-image: url("/assets/img/snowy.jpg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.stormy {
+  background-image: url("/assets/img/thunderstorm.jpg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
 }

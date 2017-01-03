@@ -10,6 +10,25 @@
 }
 
 .clear-weather {
-  background-image: url("/assets/img/sky.jpg") !important;
-  background-repeat: no-repeat;
+  @include weatherBg(clear);
+}
+
+.cloudy {
+  @include weatherBg(broken_clouds);
+}
+
+.rainy {
+  @include weatherBg(rain);
+}
+
+.misty {
+  @include weatherBg(mist);
+}
+
+.snowy {
+  @include weatherBg(snowy);
+}
+
+.stormy {
+  @include weatherBg(thunderstorm);
 }

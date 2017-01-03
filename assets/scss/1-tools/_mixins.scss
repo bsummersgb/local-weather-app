@@ -1,1 +1,6 @@
 // Write Mixins here
+@mixin weatherBg ($img) {
+  background-image: url("/assets/img/#{$img}.jpg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}

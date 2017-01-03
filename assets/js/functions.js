@@ -28,22 +28,24 @@ function getCoordinates() {
               case 'clear sky':
                 $('.wrapper').addClass('clear-weather');
                 break;
-              // case 'few clouds':
-              // case 'scattered clouds':
-              // case 'broken clouds':
-              //   //do stuff
-              //   break;
-              // case: 'shower rain':
-              // case: 'rain':
-              //   //do stuff
-              //   break;
-              // case: 'thunderstorm':
-              //   //do stuff
-              //   break;
-              // case: 'snow':
-              // case: 'mist':
-              //   //do code shit
-              //   break;
+              case 'few clouds':
+              case 'scattered clouds':
+              case 'broken clouds':
+                $('.wrapper').addClass('cloudy');
+                break;
+              case 'shower rain':
+              case 'rain':
+                $('.wrapper').addClass('rainy');
+                break;
+              case 'thunderstorm':
+                $('.wrapper').addClass('stormy');
+                break;
+              case 'snow':
+                $('.wrapper').addClass('snowy');
+                break;
+              case 'mist':
+                $('.wrapper').addClass('misty');
+                break;
               default: ('.wrapper').addClass('clear-weather');
 
             }
