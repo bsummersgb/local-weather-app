@@ -7,20 +7,19 @@ function getCoordinates() {
       var locationArray = data.loc.split(',');
       var lat = locationArray[0];
       var lon = locationArray[1];
+      $('h2').html(data.city);
 
-      $('.wrapper').html("Latitude: " + lat + " Longitude: " + lon);
 
-      // function getLocalWeather() {
-        // console.log("http://api.openweathermap.org/data/2.5/weather?"+"lat="+lat+"&lon="+lon+"&$APPID=9ec98b4ca89c6baa446ea30c23790416");
+      // $('.wrapper').html("Latitude: " + lat + " Longitude: " + lon);
 
         $.ajax({
           url: "http://api.openweathermap.org/data/2.5/weather?",
           dataType: "json",
           data: "lat="+lat+"&lon="+lon+"&units=metric&APPID=9ec98b4ca89c6baa446ea30c23790416",
           success: function(weatherData) {
-            $('.temperature').html(Math.round(weatherData.main.temp)+"C");
+            $('.temperature').html(Math.round(weatherData.main.temp)+"C&deg;");
             $('.weather-description').html(weatherData.weather[0].main);
-            // $('.icon').html("<img src='https://openweathermap.org/img/w/" + weatherData.weather[0].icon + ".png'>");
+            $('.icon').html("<img src='https://openweathermap.org/img/w/" + weatherData.weather[0].icon + ".png'>");
 
             var weatherDesc = weatherData.weather[0].description;
 
@@ -52,7 +51,6 @@ function getCoordinates() {
 
           }
         });
-      // }
 
 
 
