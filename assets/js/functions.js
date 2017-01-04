@@ -17,7 +17,7 @@ function getCoordinates() {
           dataType: "json",
           data: "lat="+lat+"&lon="+lon+"&units=metric&APPID=9ec98b4ca89c6baa446ea30c23790416",
           success: function(weatherData) {
-            $('.temperature').html(Math.round(weatherData.main.temp)+"C&deg;");
+            $('.temperature').html(Math.round(weatherData.main.temp));
             $('.weather-description').html(weatherData.weather[0].main);
             $('.icon').html("<img src='https://openweathermap.org/img/w/" + weatherData.weather[0].icon + ".png'>");
 
@@ -88,8 +88,20 @@ function getCoordinates() {
 $( document ).ready(function() {
 
 getCoordinates();
-// console.log(lat);
-// getLocalWeather();
+
+$('.temperature').on('click', function(e) {
+  e.preventDefault();
+  var celcius =  parseInt( $('.temperature').text() );
+  console.log(celcius);
+  var farenheit = celcius * 9 / 5 + 32;
+
+  $('.temperature').text( farenheit );
+  console.log(celcius);
+})
+
+// c to f:   celcius×9/5+32
+// f to c:   (farenheit-32)×5/9
+
 
 
 });

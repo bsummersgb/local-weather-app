@@ -365,3 +365,7 @@ article {
   justify-content: center;
   align-items: center;
 }
+
+.temperature {
+  cursor: pointer;
+}
