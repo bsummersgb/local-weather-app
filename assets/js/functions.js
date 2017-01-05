@@ -1,3 +1,6 @@
+// Set the temp as a global variable so it can be assigned within the ajax success function
+var temp;
+
 function getCoordinates() {
   $.ajax({
     url: "http://ipinfo.io/json?",
@@ -17,7 +20,8 @@ function getCoordinates() {
           dataType: "json",
           data: "lat="+lat+"&lon="+lon+"&units=metric&APPID=9ec98b4ca89c6baa446ea30c23790416",
           success: function(weatherData) {
-            $('.temperature').html(Math.round(weatherData.main.temp));
+            temp = Math.round(weatherData.main.temp);
+            $('.temperature').html(temp);
             $('.weather-description').html(weatherData.weather[0].main);
             $('.icon').html("<img src='https://openweathermap.org/img/w/" + weatherData.weather[0].icon + ".png'>");
 
@@ -87,17 +91,34 @@ function getCoordinates() {
 
 $( document ).ready(function() {
 
-getCoordinates();
+  getCoordinates();
 
-$('.temperature').on('click', function(e) {
-  e.preventDefault();
-  var celcius =  parseInt( $('.temperature').text() );
-  console.log(celcius);
-  var farenheit = celcius * 9 / 5 + 32;
+  // $('.temperature').on('click', function(e) {
+  //   e.preventDefault();
+  //   var celcius =  parseInt( $('.temperature').text() );
+  //   console.log(celcius);
+  //   var farenheit = celcius * 9 / 5 + 32;
+  //
+  //   $('.temperature').text( farenheit );
+  //   console.log(celcius);
+  // })
 
-  $('.temperature').text( farenheit );
-  console.log(celcius);
-})
+  function setFarenheit() {
+    return temp * 9 / 5 + 32;
+  }
+
+  $('#toggleUnit').on('click', function() {
+  	$('#unit').toggleClass('fahrenheit');
+
+    if( $('#unit').hasClass('fahrenheit') ) {
+      $('.temperature').text(setFarenheit);
+      $('#unit').text('°F');
+    } else {
+      $('.temperature').text(temp);
+      $('#unit').text('°C');
+    }
+
+  })
 
 // c to f:   celcius×9/5+32
 // f to c:   (farenheit-32)×5/9
