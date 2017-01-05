@@ -49,7 +49,7 @@ function getCoordinates() {
               case 'mist':
                 $('.wrapper').addClass('misty');
                 break;
-              default: ('.wrapper').addClass('clear-weather');
+              default: $('.wrapper').addClass('clear-weather');
 
             }
 
