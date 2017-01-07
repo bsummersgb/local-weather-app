@@ -1,5 +1,9 @@
 // Set the temp as a global variable so it can be assigned within the ajax success function
-var temp;
+var celcius;
+
+// Set the wrapper div to a main background variable to be used in the case statement
+var mainBackground = $('.wrapper');
+
 
 function getCoordinates() {
   $.ajax({
@@ -7,21 +11,19 @@ function getCoordinates() {
     dataType: "jsonp",
     data: "callback=JSON_CALLBACK",
     success: function( data ) {
+      // split up the lat and lon coordinates, which are delivered as a single string, into an array.
       var locationArray = data.loc.split(',');
       var lat = locationArray[0];
       var lon = locationArray[1];
-      $('h2').html(data.city);
-
-
-      // $('.wrapper').html("Latitude: " + lat + " Longitude: " + lon);
+      $('h2').html(data.city); // ipinfo API has more accurate city data than the OpenWeather API
 
         $.ajax({
           url: "http://api.openweathermap.org/data/2.5/weather?",
           dataType: "json",
           data: "lat="+lat+"&lon="+lon+"&units=metric&APPID=9ec98b4ca89c6baa446ea30c23790416",
-          success: function(weatherData) {
-            temp = Math.round(weatherData.main.temp);
-            $('.temperature').html(temp);
+          success: function( weatherData ) {
+            celcius = Math.round(weatherData.main.temp);
+            $('.temperature').html(celcius);
             $('.weather-description').html(weatherData.weather[0].main);
             $('.icon').html("<img src='https://openweathermap.org/img/w/" + weatherData.weather[0].icon + ".png'>");
 
@@ -29,100 +31,59 @@ function getCoordinates() {
 
             switch (weatherDesc) {
               case 'clear sky':
-                $('.wrapper').addClass('clear-weather');
+                mainBackground.addClass('clear-weather');
                 break;
               case 'few clouds':
               case 'scattered clouds':
               case 'broken clouds':
-                $('.wrapper').addClass('cloudy');
+                mainBackground.addClass('cloudy');
                 break;
               case 'shower rain':
               case 'rain':
-                $('.wrapper').addClass('rainy');
+                mainBackground.addClass('rainy');
                 break;
               case 'thunderstorm':
-                $('.wrapper').addClass('stormy');
+                mainBackground.addClass('stormy');
                 break;
               case 'snow':
-                $('.wrapper').addClass('snowy');
+                mainBackground.addClass('snowy');
                 break;
               case 'mist':
-                $('.wrapper').addClass('misty');
+                mainBackground.addClass('misty');
                 break;
-              default: $('.wrapper').addClass('clear-weather');
-
+              default: mainBackground.addClass('clear-weather');
             }
-
           }
         });
-
-
-
     }
   });
 }
 
-//print out city from ipInfo api - more accurate
-// print out temp
-//find out what values come under description
+// Converts celcius temperatue to farenheit so it can be invoked in the click function
+function setFarenheit() {
+  return celcius * 9 / 5 + 32;
+}
 
+// Toggles between farenheit and celcius on the click of the button
+$('#toggleUnit').on('click', function() {
+  $('#unit').toggleClass('fahrenheit');
 
+  // Assign the text of the temperature div to an anonymous function
+  var tempReading = function(unit) {
+    $('.temperature').text(unit);
+  }
 
-
-// Celcius to farenheit conversion
-// Math.round( (celcius * 9)/5 + 32 )
-
-// My OpenWeather API Key
-// 9ec98b4ca89c6baa446ea30c23790416
-
-
-// Exact Url to make the API call (second one converts temp to celsius (default is kelvins) , 3rd to farenheit):
-// http://api.openweathermap.org/data/2.5/weather?lat=-31.9674&lon=115.8621&APPID=9ec98b4ca89c6baa446ea30c23790416
-// http://api.openweathermap.org/data/2.5/weather?lat=-31.9674&lon=115.8621&units=metric&APPID=9ec98b4ca89c6baa446ea30c23790416
-// http://api.openweathermap.org/data/2.5/weather?lat=-31.9674&lon=115.8621&units=imperial&APPID=9ec98b4ca89c6baa446ea30c23790416
-
-
-// Examples of API call(with coords, and by cityId):
-// http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&APPID=9ec98b4ca89c6baa446ea30c23790416
-// api.openweathermap.org/data/2.5/forecast/city?id=524901&APPID=9ec98b4ca89c6baa446ea30c23790416
-
-// http://api.openweathermap.org/data/2.5/forecast/city?id=524901&APPID=061f24cf3cde2f60644a8240302983f2
-
+  if( $('#unit').hasClass('fahrenheit') ) {
+    tempReading(setFarenheit);
+    $('#unit').text('°F');
+  } else {
+    tempReading(celcius); // celcius is just the original reading from the API datae
+    $('#unit').text('°C');
+  }
+})
 
 $( document ).ready(function() {
 
   getCoordinates();
-
-  // $('.temperature').on('click', function(e) {
-  //   e.preventDefault();
-  //   var celcius =  parseInt( $('.temperature').text() );
-  //   console.log(celcius);
-  //   var farenheit = celcius * 9 / 5 + 32;
-  //
-  //   $('.temperature').text( farenheit );
-  //   console.log(celcius);
-  // })
-
-  function setFarenheit() {
-    return temp * 9 / 5 + 32;
-  }
-
-  $('#toggleUnit').on('click', function() {
-  	$('#unit').toggleClass('fahrenheit');
-
-    if( $('#unit').hasClass('fahrenheit') ) {
-      $('.temperature').text(setFarenheit);
-      $('#unit').text('°F');
-    } else {
-      $('.temperature').text(temp);
-      $('#unit').text('°C');
-    }
-
-  })
-
-// c to f:   celcius×9/5+32
-// f to c:   (farenheit-32)×5/9
-
-
 
 });
