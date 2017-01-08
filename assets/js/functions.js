@@ -7,7 +7,7 @@ var mainBackground = $('.wrapper');
 
 function getCoordinates() {
   $.ajax({
-    url: "http://ipinfo.io/json?",
+    url: "https://ipinfo.io/json?",
     dataType: "jsonp",
     data: "callback=JSON_CALLBACK",
     success: function( data ) {
